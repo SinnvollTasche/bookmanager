@@ -1,6 +1,7 @@
 package balta.stuermer.adv.swe.models;
 
 public class Verlag {
+    private String id;
     private String name;
 
     public Verlag(String name) {

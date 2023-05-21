@@ -1,6 +1,7 @@
 package balta.stuermer.adv.swe.models;
 
 public class Exemplar {
+    private String id;
     private String ISBN;
     private String Auflage;
     private Zustand zustand;

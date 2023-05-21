@@ -3,6 +3,7 @@ package balta.stuermer.adv.swe.models;
 import java.util.List;
 
 public class Buch {
+    private String id;
     private String titel;
     private String untertitel;
     private List<Autor> autoren;
