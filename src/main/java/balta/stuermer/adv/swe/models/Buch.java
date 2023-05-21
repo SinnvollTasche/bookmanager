@@ -18,23 +18,51 @@ public class Buch {
         this.seiten = seiten;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getTitel() {
         return titel;
+    }
+
+    public void setTitel(String titel) {
+        this.titel = titel;
     }
 
     public String getUntertitel() {
         return untertitel;
     }
 
+    public void setUntertitel(String untertitel) {
+        this.untertitel = untertitel;
+    }
+
     public List<Autor> getAutoren() {
         return autoren;
+    }
+
+    public void setAutoren(List<Autor> autoren) {
+        this.autoren = autoren;
     }
 
     public Verlag getVerlag() {
         return verlag;
     }
 
+    public void setVerlag(Verlag verlag) {
+        this.verlag = verlag;
+    }
+
     public int getSeiten() {
         return seiten;
+    }
+
+    public void setSeiten(int seiten) {
+        this.seiten = seiten;
     }
 }
