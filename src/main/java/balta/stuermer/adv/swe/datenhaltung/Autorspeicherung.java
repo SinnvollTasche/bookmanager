@@ -11,9 +11,19 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 
 public class Autorspeicherung {
-    private final File speicherort;
+    private static Autorspeicherung instanz;
+    private File speicherort;
 
-    public Autorspeicherung(File speicherort) {
+    private Autorspeicherung() {}
+
+    public static Autorspeicherung getInstanz() {
+        if (instanz == null) {
+            instanz = new Autorspeicherung();
+        }
+        return instanz;
+    }
+
+    public void setSpeicherort(File speicherort) {
         this.speicherort = speicherort;
     }
 
@@ -66,7 +76,7 @@ public class Autorspeicherung {
         StringBuilder stringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
 
-            while (!br.ready()) {
+            while (br.ready()) {
                 stringBuilder.append(br.readLine());
             }
         } catch (FileNotFoundException ex) {

@@ -11,9 +11,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Exemplarspeicherung {
-    private final File speicherort;
+    private static Exemplarspeicherung instanz;
+    private File speicherort;
 
-    public Exemplarspeicherung(File speicherort) {
+    private Exemplarspeicherung() {}
+
+    public static Exemplarspeicherung getInstanz() {
+        if (instanz == null) {
+            instanz = new Exemplarspeicherung();
+        }
+        return instanz;
+    }
+
+    public void setSpeicherort(File speicherort) {
         this.speicherort = speicherort;
     }
 
@@ -60,7 +70,7 @@ public class Exemplarspeicherung {
         StringBuilder stringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
 
-            while (!br.ready()) {
+            while (br.ready()) {
                 stringBuilder.append(br.readLine());
             }
         } catch (FileNotFoundException ex) {

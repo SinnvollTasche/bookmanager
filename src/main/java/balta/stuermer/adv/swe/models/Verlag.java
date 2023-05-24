@@ -4,7 +4,8 @@ public class Verlag {
     private String id;
     private String name;
 
-    public Verlag(String name) {
+    public Verlag(String id, String name) {
+        this.id = id;
         this.name = name;
     }
 
@@ -22,5 +23,10 @@ public class Verlag {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

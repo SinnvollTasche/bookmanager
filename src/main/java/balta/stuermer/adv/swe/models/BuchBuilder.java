@@ -1,8 +1,10 @@
 package balta.stuermer.adv.swe.models;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class BuchBuilder {
+public class BuchBuilder implements BearbeitbarBuilder {
     private String titel;
     private String untertitel;
     private List<Autor> autoren;
@@ -46,5 +48,26 @@ public class BuchBuilder {
 
     public Buch createBuch() {
         return new Buch(titel, untertitel, autoren, verlag, seiten);
+    }
+
+    @Override
+    public Map<String, Class<?>> getAlleAttribute() {
+        Map<String, Class<?>> attribute = new HashMap<>();
+        attribute.put("Titel", String.class);
+        attribute.put("Untertitel", String.class);
+        attribute.put("Seiten", Integer.class);
+        return attribute;
+    }
+
+    @Override
+    public void setAttribut(String attribut, Object wert) {
+        if (attribut.equals("Titel")) {
+            setTitel(wert.toString());
+        }
+    }
+
+    @Override
+    public void speichere() {
+
     }
 }

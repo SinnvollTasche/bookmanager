@@ -10,9 +10,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Buchspeicherung {
-    private final File speicherort;
+    private static Buchspeicherung instanz;
+    private File speicherort;
 
-    public Buchspeicherung(File speicherort) {
+    private Buchspeicherung() {}
+
+    public static Buchspeicherung getInstanz() {
+        if (instanz == null) {
+            instanz = new Buchspeicherung();
+        }
+        return instanz;
+    }
+
+    public void setSpeicherort(File speicherort) {
         this.speicherort = speicherort;
     }
 
@@ -65,7 +75,7 @@ public class Buchspeicherung {
         StringBuilder stringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
 
-            while (!br.ready()) {
+            while (br.ready()) {
                 stringBuilder.append(br.readLine());
             }
         } catch (FileNotFoundException ex) {

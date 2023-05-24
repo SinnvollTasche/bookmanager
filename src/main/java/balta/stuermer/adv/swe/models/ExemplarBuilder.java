@@ -1,6 +1,8 @@
 package balta.stuermer.adv.swe.models;
 
-public class ExemplarBuilder {
+import java.util.Map;
+
+public class ExemplarBuilder implements BearbeitbarBuilder {
     private String isbn;
     private String auflage;
     private Zustand zustand;
@@ -28,5 +30,22 @@ public class ExemplarBuilder {
 
     public Exemplar createExemplar() {
         return new Exemplar(isbn, auflage, zustand, buch);
+    }
+
+    @Override
+    public Map<String, Class<?>> getAlleAttribute() {
+        return null;
+    }
+
+    @Override
+    public void setAttribut(String attribut, Object wert) {
+        if (attribut.equals("ISBN")) {
+            setISBN(wert.toString());
+        }
+    }
+
+    @Override
+    public void speichere() {
+
     }
 }

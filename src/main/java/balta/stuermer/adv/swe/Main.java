@@ -14,16 +14,11 @@ import java.io.File;
 import java.nio.file.Paths;
 
 public class Main extends Application {
-    private static Autorspeicherung autorspeicherung;
-    private static Buchspeicherung buchspeicherung;
-    private static Exemplarspeicherung exemplarspeicherung;
-    private static Verlagspeicherung verlagspeicherung;
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        Parent root = FXMLLoader.load(getClass().getResource("/hauptmenu.fxml"));
+        primaryStage.setTitle("Buchmanager");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
@@ -53,10 +48,10 @@ public class Main extends Application {
         speicherortExemplare.mkdir();
         speicherortVerlage.mkdir();
 
-        autorspeicherung = new Autorspeicherung(speicherortAutoren);
-        buchspeicherung = new Buchspeicherung(speicherortBuecher);
-        exemplarspeicherung = new Exemplarspeicherung(speicherortExemplare);
-        verlagspeicherung = new Verlagspeicherung(speicherortVerlage);
+        Autorspeicherung.getInstanz().setSpeicherort(speicherortAutoren);
+        Buchspeicherung.getInstanz().setSpeicherort(speicherortBuecher);
+        Exemplarspeicherung.getInstanz().setSpeicherort(speicherortExemplare);
+        Verlagspeicherung.getInstanz().setSpeicherort(speicherortVerlage);
     }
 
 

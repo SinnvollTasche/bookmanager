@@ -1,5 +1,6 @@
 package balta.stuermer.adv.swe.datenhaltung;
 
+import balta.stuermer.adv.swe.models.Autor;
 import balta.stuermer.adv.swe.models.Verlag;
 import com.google.gson.Gson;
 
@@ -10,14 +11,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Verlagspeicherung {
-    private final File speicherort;
+    private static Verlagspeicherung instanz;
+    private File speicherort;
 
-    public Verlagspeicherung(File speicherort) {
+    private Verlagspeicherung() {}
+
+    public static Verlagspeicherung getInstanz() {
+        if (instanz == null) {
+            instanz = new Verlagspeicherung();
+        }
+        return instanz;
+    }
+
+    public void setSpeicherort(File speicherort) {
         this.speicherort = speicherort;
     }
 
     public List<Verlag> findeAlleVerlage() {
-        return new ArrayList<>();
+        File[] files = speicherort.listFiles(pathname -> pathname.getAbsolutePath().endsWith(".json"));
+        List<Verlag> verlage = new ArrayList<>();
+        assert files != null;
+        for (File f : files) {
+            verlage.add(leseVerlagAusDatei(f));
+        }
+        return verlage;
     }
 
     public void speichereNeuenVerlag(Verlag verlag) throws IOException {
@@ -58,7 +75,7 @@ public class Verlagspeicherung {
     private Verlag leseVerlagAusDatei(File f) throws IllegalArgumentException {
         StringBuilder stringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
-            while (!br.ready()) {
+            while (br.ready()) {
                 stringBuilder.append(br.readLine());
             }
         } catch (FileNotFoundException ex) {
