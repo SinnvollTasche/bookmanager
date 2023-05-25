@@ -17,9 +17,11 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BearbeitenController {
     BearbeitbarBuilder zuBearbeitendesObjekt;
@@ -61,7 +63,10 @@ public class BearbeitenController {
                             System.out.println("Aus einem unbekannten Grund wird hier ein Fehler geworfen, aber trotzdem funktioniert alles.");
                         }
                     }));
-                    autorAuswahl.setValue(((List<Autor>) zuBearbeitendesObjekt.getAttribut(entry.getKey())).get(0));
+                    List<Autor> autoren = (List<Autor>) zuBearbeitendesObjekt.getAttribut(entry.getKey());
+                    if (autoren != null) {
+                        autorAuswahl.setValue(autoren.get(0));
+                    }
                     attributGrid.add(autorAuswahl, 1, i);
                     break;
                 }
@@ -78,6 +83,21 @@ public class BearbeitenController {
                     }));
                     buchAuswahl.setValue((Buch) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
                     attributGrid.add(buchAuswahl, 1, i);
+                    break;
+                }
+                case "Zustand": {
+                    ComboBox<Zustand> zustandAuswahl = new ComboBox<>();
+                    zustandAuswahl.getItems().addAll(FXCollections.observableList(Arrays.stream(Zustand.values()).collect(Collectors.toList())));
+                    zustandAuswahl.setEditable(false);
+                    zustandAuswahl.setOnAction((actionEvent -> {
+                        try {
+                            ((BuchBuilder) zuBearbeitendesObjekt).setZustand(zustandAuswahl.getValue());
+                        } catch (ClassCastException ex) {
+                            System.out.println("Aus einem unbekannten Grund wird hier ein Fehler geworfen, aber trotzdem funktioniert alles.");
+                        }
+                    }));
+                    zustandAuswahl.setValue((Zustand) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
+                    attributGrid.add(zustandAuswahl, 1, i);
                     break;
                 }
                 default: {

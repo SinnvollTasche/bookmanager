@@ -11,14 +11,16 @@ public class Buch implements Anzeigbar {
     private List<Autor> autoren;
     private Verlag verlag;
     private int seiten;
+    private Zustand zustand;
 
-    public Buch(String id, String titel, String untertitel, List<Autor> autoren, Verlag verlag, int seiten) {
+    public Buch(String id, String titel, String untertitel, List<Autor> autoren, Verlag verlag, int seiten, Zustand zustand) {
         this.id = id;
         this.titel = titel;
         this.untertitel = untertitel;
         this.autoren = autoren;
         this.verlag = verlag;
         this.seiten = seiten;
+        this.zustand = zustand;
     }
 
     public String getId() {
@@ -69,6 +71,14 @@ public class Buch implements Anzeigbar {
         this.seiten = seiten;
     }
 
+    public Zustand getZustand() {
+        return zustand;
+    }
+
+    public void setZustand(Zustand zustand) {
+        this.zustand = zustand;
+    }
+
     @Override
     public String toString() {
         StringBuilder beschreibung = new StringBuilder();
@@ -97,6 +107,10 @@ public class Buch implements Anzeigbar {
         attribute.put("Verlag", "");
         if (verlag != null) {
             attribute.put("Verlag", this.verlag.toString());
+        }
+        attribute.put("Zustand", "");
+        if (zustand != null) {
+            attribute.put("Zustand", zustand.getBeschreibung());
         }
         return attribute;
     }

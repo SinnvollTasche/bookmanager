@@ -32,4 +32,9 @@ public enum Zustand {
         }
         return zustaende[id];
     }
+
+    @Override
+    public String toString() {
+        return beschreibung;
+    }
 }

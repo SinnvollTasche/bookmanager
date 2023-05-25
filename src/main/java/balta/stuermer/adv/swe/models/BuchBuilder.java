@@ -15,6 +15,7 @@ public class BuchBuilder implements BearbeitbarBuilder {
     private List<Autor> autoren;
     private Verlag verlag;
     private int seiten;
+    private Zustand zustand;
 
     public BuchBuilder() {
 
@@ -27,6 +28,7 @@ public class BuchBuilder implements BearbeitbarBuilder {
         setAutoren(buch.getAutoren());
         setVerlag(buch.getVerlag());
         setSeiten(buch.getSeiten());
+        setZustand(buch.getZustand());
     }
 
     public void setId(String id) {
@@ -68,8 +70,12 @@ public class BuchBuilder implements BearbeitbarBuilder {
         return this;
     }
 
+    public void setZustand(Zustand zustand) {
+        this.zustand = zustand;
+    }
+
     public Buch createBuch() {
-        return new Buch(id, titel, untertitel, autoren, verlag, seiten);
+        return new Buch(id, titel, untertitel, autoren, verlag, seiten, zustand);
     }
 
     @Override
@@ -80,6 +86,7 @@ public class BuchBuilder implements BearbeitbarBuilder {
         attribute.put("Seiten", Integer.class);
         attribute.put("Verlag", Verlag.class);
         attribute.put("Autor*Innen", List.class);
+        attribute.put("Zustand", Zustand.class);
         return attribute;
     }
 
@@ -100,6 +107,9 @@ public class BuchBuilder implements BearbeitbarBuilder {
             }
             case "Verlag": {
                 return this.verlag;
+            }
+            case "Zustand": {
+                return this.zustand;
             }
             default:
                 return null;
