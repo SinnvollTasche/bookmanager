@@ -2,7 +2,7 @@ package balta.stuermer.adv.swe;
 
 import balta.stuermer.adv.swe.datenhaltung.Autorspeicherung;
 import balta.stuermer.adv.swe.datenhaltung.Buchspeicherung;
-import balta.stuermer.adv.swe.datenhaltung.Exemplarspeicherung;
+import balta.stuermer.adv.swe.datenhaltung.Ausleihespeicherung;
 import balta.stuermer.adv.swe.datenhaltung.Verlagspeicherung;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -40,17 +40,17 @@ public class Main extends Application {
 
         File speicherortAutoren = Paths.get(saveFilesDirectory.getAbsolutePath(), "/Autoren/").toFile();
         File speicherortBuecher = Paths.get(saveFilesDirectory.getAbsolutePath(), "/Buecher/").toFile();
-        File speicherortExemplare = Paths.get(saveFilesDirectory.getAbsolutePath(), "/Exemplare/").toFile();
+        File speicherortAusleihen = Paths.get(saveFilesDirectory.getAbsolutePath(), "/Ausleihen/").toFile();
         File speicherortVerlage = Paths.get(saveFilesDirectory.getAbsolutePath(), "/Verlage/").toFile();
 
         speicherortAutoren.mkdir();
         speicherortBuecher.mkdir();
-        speicherortExemplare.mkdir();
+        speicherortAusleihen.mkdir();
         speicherortVerlage.mkdir();
 
         Autorspeicherung.getInstanz().setSpeicherort(speicherortAutoren);
         Buchspeicherung.getInstanz().setSpeicherort(speicherortBuecher);
-        Exemplarspeicherung.getInstanz().setSpeicherort(speicherortExemplare);
+        Ausleihespeicherung.getInstanz().setSpeicherort(speicherortAusleihen);
         Verlagspeicherung.getInstanz().setSpeicherort(speicherortVerlage);
     }
 

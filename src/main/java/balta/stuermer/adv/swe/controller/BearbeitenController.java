@@ -1,11 +1,9 @@
 package balta.stuermer.adv.swe.controller;
 
 import balta.stuermer.adv.swe.datenhaltung.Autorspeicherung;
+import balta.stuermer.adv.swe.datenhaltung.Buchspeicherung;
 import balta.stuermer.adv.swe.datenhaltung.Verlagspeicherung;
-import balta.stuermer.adv.swe.models.Autor;
-import balta.stuermer.adv.swe.models.BearbeitbarBuilder;
-import balta.stuermer.adv.swe.models.BuchBuilder;
-import balta.stuermer.adv.swe.models.Verlag;
+import balta.stuermer.adv.swe.models.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,6 +63,21 @@ public class BearbeitenController {
                     }));
                     autorAuswahl.setValue(((List<Autor>) zuBearbeitendesObjekt.getAttribut(entry.getKey())).get(0));
                     attributGrid.add(autorAuswahl, 1, i);
+                    break;
+                }
+                case "Buch": {
+                    ComboBox<Buch> buchAuswahl = new ComboBox<>();
+                    buchAuswahl.getItems().addAll(FXCollections.observableList(Buchspeicherung.getInstanz().findeAlleBuecher()));
+                    buchAuswahl.setEditable(true);
+                    buchAuswahl.setOnAction((actionEvent -> {
+                        try {
+                            ((AusleiheBuilder) zuBearbeitendesObjekt).setBuch(buchAuswahl.getValue());
+                        } catch (ClassCastException ex) {
+                            System.out.println("Aus einem unbekannten Grund wird hier ein Fehler geworfen, aber trotzdem funktioniert alles.");
+                        }
+                    }));
+                    buchAuswahl.setValue((Buch) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
+                    attributGrid.add(buchAuswahl, 1, i);
                     break;
                 }
                 default: {

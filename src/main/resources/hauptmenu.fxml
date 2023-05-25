@@ -24,6 +24,7 @@
           <MenuItem mnemonicParsing="false" onAction="#beiBuchMenuAuswahl" text="Bücher" />
           <MenuItem mnemonicParsing="false" onAction="#beiAutorMenuAuswahl" text="Autor*Innen" />
             <MenuItem mnemonicParsing="false" onAction="#beiVerlagMenuAuswahl" text="Verlage" />
+            <MenuItem mnemonicParsing="false" onAction="#beiAusleiheMenuAuswahl" text="Ausleihen" />
         </items>
       </MenuButton>
       <ListView fx:id="liste" onMouseClicked="#beiAuswahlAusListe" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />

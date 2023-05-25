@@ -54,6 +54,8 @@ public class DetailsController {
                 case "Verlag":
                     bearbeitenController.setZuBearbeitendesObjekt(new VerlagBuilder((Verlag) anzuzeigendesObjekt));
                     break;
+                case "Ausleihe":
+                    bearbeitenController.setZuBearbeitendesObjekt(new AusleiheBuilder((Ausleihe) anzuzeigendesObjekt));
             }
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);

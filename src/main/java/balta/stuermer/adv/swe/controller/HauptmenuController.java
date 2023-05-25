@@ -1,5 +1,6 @@
 package balta.stuermer.adv.swe.controller;
 
+import balta.stuermer.adv.swe.datenhaltung.Ausleihespeicherung;
 import balta.stuermer.adv.swe.datenhaltung.Autorspeicherung;
 import balta.stuermer.adv.swe.datenhaltung.Buchspeicherung;
 import balta.stuermer.adv.swe.datenhaltung.Verlagspeicherung;
@@ -49,6 +50,13 @@ public class HauptmenuController {
     }
 
     @FXML
+    private void beiAusleiheMenuAuswahl(ActionEvent event) {
+        modus = "ausleihe";
+        suchfeld.setText("");
+        ladeListe();
+    }
+
+    @FXML
     private void beiNeuAnlegen(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/bearbeiten.fxml"));
         Scene jetzigeSzene = ((Button)event.getSource()).getScene();
@@ -68,6 +76,9 @@ public class HauptmenuController {
                     break;
                 case "verlag":
                     bearbeitenController.setZuBearbeitendesObjekt(new VerlagBuilder());
+                    break;
+                case "ausleihe":
+                    bearbeitenController.setZuBearbeitendesObjekt(new AusleiheBuilder());
                     break;
             }
             Stage stage = new Stage();
@@ -139,6 +150,16 @@ public class HauptmenuController {
                     verlage = FXCollections.observableList(Verlagspeicherung.getInstanz().findeAlleVerlage());
                 }
                 liste.setItems(verlage);
+                break;
+            }
+            case "ausleihe": {
+                ObservableList<Ausleihe> ausleihen;
+                if (suchfeld.getText() != null && !suchfeld.getText().equals("")) {
+                    ausleihen = FXCollections.observableList(Ausleihespeicherung.getInstanz().findeAusleiheMitAusleihendem(suchfeld.getText()));
+                } else {
+                    ausleihen = FXCollections.observableList(Ausleihespeicherung.getInstanz().findeAlleAusleihen());
+                }
+                liste.setItems(ausleihen);
                 break;
             }
         }
