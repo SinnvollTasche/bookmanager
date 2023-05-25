@@ -1,21 +1,26 @@
 package balta.stuermer.adv.swe.controller;
 
+import balta.stuermer.adv.swe.datenhaltung.Autorspeicherung;
+import balta.stuermer.adv.swe.datenhaltung.Verlagspeicherung;
+import balta.stuermer.adv.swe.models.Autor;
 import balta.stuermer.adv.swe.models.BearbeitbarBuilder;
+import balta.stuermer.adv.swe.models.BuchBuilder;
+import balta.stuermer.adv.swe.models.Verlag;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class BearbeitenController {
@@ -30,11 +35,47 @@ public class BearbeitenController {
         }
         int i = 0;
         for (Map.Entry<String, Class<?>> entry : zuBearbeitendesObjekt.getAlleAttribute().entrySet()) {
-            TextField eingabeFeld = new TextField();
-            eingabeFeld.setText(zuBearbeitendesObjekt.getAttribut(entry.getKey()));
-            eingabeFeld.setOnKeyTyped((actionEvent -> zuBearbeitendesObjekt.setAttribut(entry.getKey(), ((TextField) actionEvent.getTarget()).getText())));
             attributGrid.add(new Label(entry.getKey()), 0, i);
-            attributGrid.add(eingabeFeld, 1, i);
+            switch (entry.getKey()) {
+                case "Verlag": {
+                    ComboBox<Verlag> verlagAuswahl = new ComboBox<>();
+                    verlagAuswahl.getItems().addAll(FXCollections.observableList(Verlagspeicherung.getInstanz().findeAlleVerlage()));
+                    verlagAuswahl.setEditable(true);
+                    verlagAuswahl.setOnAction((actionEvent -> {
+                                try {
+                                    ((BuchBuilder) zuBearbeitendesObjekt).setVerlag(verlagAuswahl.getValue());
+                                } catch (ClassCastException ex) {
+                                    System.out.println("Aus einem unbekannten Grund wird hier ein Fehler geworfen, aber trotzdem funktioniert alles.");
+                                }
+                            }));
+                    verlagAuswahl.setValue((Verlag) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
+                    attributGrid.add(verlagAuswahl, 1, i);
+                    break;
+                }
+                case "Autor*Innen": {
+                    ComboBox<Autor> autorAuswahl = new ComboBox<>();
+                    autorAuswahl.getItems().addAll(FXCollections.observableList(Autorspeicherung.getInstanz().findeAlleAutoren()));
+                    autorAuswahl.setEditable(true);
+                    autorAuswahl.setOnAction((actionEvent -> {
+                        try {
+                            ((BuchBuilder) zuBearbeitendesObjekt).setAutoren(Collections.singletonList(autorAuswahl.getValue()));
+                        } catch (ClassCastException ex) {
+                            System.out.println("Aus einem unbekannten Grund wird hier ein Fehler geworfen, aber trotzdem funktioniert alles.");
+                        }
+                    }));
+                    autorAuswahl.setValue(((List<Autor>) zuBearbeitendesObjekt.getAttribut(entry.getKey())).get(0));
+                    attributGrid.add(autorAuswahl, 1, i);
+                    break;
+                }
+                default: {
+                    TextField eingabeFeld = new TextField();
+                    if (zuBearbeitendesObjekt.getAttribut(entry.getKey()) != null) {
+                        eingabeFeld.setText(zuBearbeitendesObjekt.getAttribut(entry.getKey()).toString());
+                    }
+                    eingabeFeld.setOnKeyTyped((actionEvent -> zuBearbeitendesObjekt.setAttribut(entry.getKey(), ((TextField) actionEvent.getTarget()).getText())));
+                    attributGrid.add(eingabeFeld, 1, i);
+                }
+            }
             i++;
         }
     }

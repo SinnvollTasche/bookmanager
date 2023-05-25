@@ -78,11 +78,13 @@ public class BuchBuilder implements BearbeitbarBuilder {
         attribute.put("Titel", String.class);
         attribute.put("Untertitel", String.class);
         attribute.put("Seiten", Integer.class);
+        attribute.put("Verlag", Verlag.class);
+        attribute.put("Autor*Innen", List.class);
         return attribute;
     }
 
     @Override
-    public String getAttribut(String attribut) {
+    public Object getAttribut(String attribut) {
         switch (attribut) {
             case "Titel": {
                 return this.titel;
@@ -92,6 +94,12 @@ public class BuchBuilder implements BearbeitbarBuilder {
             }
             case "Seiten": {
                 return this.seiten + "";
+            }
+            case "Autor*Innen": {
+                return this.autoren;
+            }
+            case "Verlag": {
+                return this.verlag;
             }
             default:
                 return null;

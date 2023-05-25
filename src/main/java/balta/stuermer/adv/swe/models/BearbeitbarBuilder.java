@@ -7,6 +7,6 @@ public interface BearbeitbarBuilder {
 
     Map<String, Class<?>> getAlleAttribute();
     void setAttribut(String attribut, Object wert);
-    String getAttribut(String attribut);
+    Object getAttribut(String attribut);
     void speichere() throws IOException;
 }
