@@ -47,7 +47,7 @@ public class Autorspeicherung {
 
     public List<Autor> findeAutor(String name) {
         List<Autor> autoren = this.findeAlleAutoren();
-        autoren = autoren.stream().filter(a -> a.getName().matches(name)).collect(Collectors.toList());
+        autoren = autoren.stream().filter(a -> a.getName().matches(".*" + name + ".*")).collect(Collectors.toList());
         return autoren;
     }
 

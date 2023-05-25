@@ -51,7 +51,7 @@ public class Buchspeicherung {
 
     public List<Buch> findeBuch(String title) {
         List<Buch> buecher = this.findeAlleBuecher();
-        buecher = buecher.stream().filter(a -> a.getTitel().matches(title)).collect(Collectors.toList());
+        buecher = buecher.stream().filter(a -> a.getTitel().matches(".*" + title + ".*")).collect(Collectors.toList());
         return buecher;
     }
 

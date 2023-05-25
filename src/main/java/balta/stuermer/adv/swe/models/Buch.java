@@ -65,4 +65,18 @@ public class Buch {
     public void setSeiten(int seiten) {
         this.seiten = seiten;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder beschreibung = new StringBuilder();
+        beschreibung.append(titel);
+        if (autoren == null || autoren.size() == 0) {
+            return beschreibung.toString();
+        }
+        beschreibung.append(" von ").append(autoren.get(0).getName());
+        if (autoren.size() > 1) {
+            beschreibung.append(" und Co.");
+        }
+        return beschreibung.toString();
+    }
 }

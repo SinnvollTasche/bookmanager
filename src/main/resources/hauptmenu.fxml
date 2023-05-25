@@ -18,7 +18,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField promptText="Suche" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
+      <TextField fx:id="suchfeld" promptText="Suche" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
       <MenuButton mnemonicParsing="false" text="Andere Auswahl" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
         <items>
           <MenuItem mnemonicParsing="false" onAction="#beiBuchMenuAuswahl" text="Bücher" />

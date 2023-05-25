@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -22,23 +23,28 @@ public class HauptmenuController {
     private String modus = "autor";
     @FXML
     public ListView liste;
+    @FXML
+    public TextField suchfeld;
 
     @FXML
     private void beiBuchMenuAuswahl(ActionEvent event) {
         modus = "buch";
-        ladeTabelle();
+        suchfeld.setText("");
+        ladeListe();
     }
 
     @FXML
     private void beiAutorMenuAuswahl(ActionEvent event) {
         modus = "autor";
-        ladeTabelle();
+        suchfeld.setText("");
+        ladeListe();
     }
 
     @FXML
     private void beiVerlagMenuAuswahl(ActionEvent event) {
         modus = "verlag";
-        ladeTabelle();
+        suchfeld.setText("");
+        ladeListe();
     }
 
     @FXML
@@ -76,20 +82,35 @@ public class HauptmenuController {
         }
     }
 
-    private void ladeTabelle() {
+    private void ladeListe() {
         switch (modus) {
             case "buch": {
-                ObservableList<Buch> bücher = FXCollections.observableList(Buchspeicherung.getInstanz().findeAlleBuecher());
-                liste.setItems(bücher);
+                ObservableList<Buch> buchListe;
+                if (suchfeld.getText() != null && !suchfeld.getText().equals("")) {
+                    buchListe = FXCollections.observableList(Buchspeicherung.getInstanz().findeBuch(suchfeld.getText()));
+                } else {
+                    buchListe = FXCollections.observableList(Buchspeicherung.getInstanz().findeAlleBuecher());
+                }
+                liste.setItems(buchListe);
                 break;
             }
             case "autor": {
-                ObservableList<Autor> autoren = FXCollections.observableList(Autorspeicherung.getInstanz().findeAlleAutoren());
+                ObservableList<Autor> autoren;
+                if (suchfeld.getText() != null && !suchfeld.getText().equals("")) {
+                    autoren = FXCollections.observableList(Autorspeicherung.getInstanz().findeAutor(suchfeld.getText()));
+                } else {
+                    autoren = FXCollections.observableList(Autorspeicherung.getInstanz().findeAlleAutoren());
+                }
                 liste.setItems(autoren);
                 break;
             }
             case "verlag": {
-                ObservableList<Verlag> verlage = FXCollections.observableList(Verlagspeicherung.getInstanz().findeAlleVerlage());
+                ObservableList<Verlag> verlage;
+                if (suchfeld.getText() != null && !suchfeld.getText().equals("")) {
+                    verlage = FXCollections.observableList(Verlagspeicherung.getInstanz().findeVerlagMitName(suchfeld.getText()));
+                } else {
+                    verlage = FXCollections.observableList(Verlagspeicherung.getInstanz().findeAlleVerlage());
+                }
                 liste.setItems(verlage);
                 break;
             }
@@ -98,6 +119,7 @@ public class HauptmenuController {
 
     @FXML
     private void initialize() {
-        ladeTabelle();
+        ladeListe();
+        suchfeld.setOnKeyTyped(event -> ladeListe());
     }
 }

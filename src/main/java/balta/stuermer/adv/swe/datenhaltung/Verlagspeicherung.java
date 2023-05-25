@@ -47,7 +47,7 @@ public class Verlagspeicherung {
 
     public List<Verlag> findeVerlagMitName(String name) {
         List<Verlag> verlage = this.findeAlleVerlage();
-        verlage = verlage.stream().filter(a -> a.getName().matches(name)).collect(Collectors.toList());
+        verlage = verlage.stream().filter(a -> a.getName().matches(".*" + name + ".*")).collect(Collectors.toList());
         return verlage;
     }
 
