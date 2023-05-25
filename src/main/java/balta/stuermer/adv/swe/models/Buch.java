@@ -1,8 +1,10 @@
 package balta.stuermer.adv.swe.models;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Buch {
+public class Buch implements Anzeigbar {
     private String id;
     private String titel;
     private String untertitel;
@@ -78,5 +80,18 @@ public class Buch {
             beschreibung.append(" und Co.");
         }
         return beschreibung.toString();
+    }
+
+    @Override
+    public Map<String, String> getAlleAttribute() {
+        Map<String, String> attribute = new HashMap<>();
+        attribute.put("Titel", this.titel);
+        attribute.put("Untertitel", this.untertitel);
+        StringBuilder autorenString = new StringBuilder();
+        autoren.forEach(autor -> autorenString.append(autor.toString()).append("\n"));
+        attribute.put("Autor*Innen", autorenString.toString());
+        attribute.put("Seiten", this.seiten + "");
+        attribute.put("Verlag", this.verlag.toString());
+        return attribute;
     }
 }

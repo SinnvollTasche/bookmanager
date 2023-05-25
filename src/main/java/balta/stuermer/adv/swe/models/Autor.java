@@ -1,6 +1,9 @@
 package balta.stuermer.adv.swe.models;
 
-public class Autor {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Autor implements Anzeigbar {
     private String id;
     private String name;
 
@@ -28,5 +31,12 @@ public class Autor {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public Map<String, String> getAlleAttribute() {
+        Map<String, String> attribute = new HashMap<>();
+        attribute.put("Name", this.name);
+        return attribute;
     }
 }

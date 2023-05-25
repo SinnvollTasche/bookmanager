@@ -26,7 +26,7 @@
             <MenuItem mnemonicParsing="false" onAction="#beiVerlagMenuAuswahl" text="Verlage" />
         </items>
       </MenuButton>
-      <ListView fx:id="liste" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+      <ListView fx:id="liste" onMouseClicked="#beiAuswahlAusListe" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
       <Button mnemonicParsing="false" onAction="#beiNeuAnlegen" text="Neu anlegen" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4" GridPane.vgrow="NEVER" />
    </children>
    <rowConstraints>

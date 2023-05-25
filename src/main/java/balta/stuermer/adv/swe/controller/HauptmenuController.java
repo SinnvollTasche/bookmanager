@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -79,6 +80,32 @@ public class HauptmenuController {
         } catch (IOException ex) {
             ex.printStackTrace();
             System.err.println("Fehler in der bearbeiten.fxml datei");
+        }
+    }
+
+    @FXML
+    private void beiAuswahlAusListe(MouseEvent event) {
+        Anzeigbar anzuzeigendesObjekt = (Anzeigbar) liste.getSelectionModel().getSelectedItem();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/details.fxml"));
+        Scene jetzigeSzene = ((ListView<?>) event.getSource()).getScene();
+        try {
+            Parent root = fxmlLoader.load();
+            DetailsController detailsController = fxmlLoader.getController();
+            if (detailsController == null) {
+                detailsController = new DetailsController();
+                fxmlLoader.setController(detailsController);
+            }
+            detailsController.setAnzuzeigendesObjekt(anzuzeigendesObjekt);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setOpacity(1);
+            stage.setTitle("Details");
+            stage.setScene(new Scene(root, jetzigeSzene.getWidth(), jetzigeSzene.getHeight()));
+            stage.show();
+            ((Stage)(jetzigeSzene.getWindow())).close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.err.println("Fehler in der details.fxml datei");
         }
     }
 
