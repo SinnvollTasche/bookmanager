@@ -31,7 +31,8 @@ public class BearbeitenController {
         int i = 0;
         for (Map.Entry<String, Class<?>> entry : zuBearbeitendesObjekt.getAlleAttribute().entrySet()) {
             TextField eingabeFeld = new TextField();
-            eingabeFeld.setOnKeyTyped((actionEvent -> zuBearbeitendesObjekt.setAttribut(entry.getKey(), ((TextField) actionEvent.getTarget()).getCharacters())));
+            eingabeFeld.setText(zuBearbeitendesObjekt.getAttribut(entry.getKey()));
+            eingabeFeld.setOnKeyTyped((actionEvent -> zuBearbeitendesObjekt.setAttribut(entry.getKey(), ((TextField) actionEvent.getTarget()).getText())));
             attributGrid.add(new Label(entry.getKey()), 0, i);
             attributGrid.add(eingabeFeld, 1, i);
             i++;

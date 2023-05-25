@@ -1,6 +1,5 @@
 package balta.stuermer.adv.swe.models;
 
-import balta.stuermer.adv.swe.datenhaltung.Autorspeicherung;
 import balta.stuermer.adv.swe.datenhaltung.Verlagspeicherung;
 
 import java.io.IOException;
@@ -11,6 +10,15 @@ import java.util.UUID;
 public class VerlagBuilder implements BearbeitbarBuilder {
     private String id;
     private String name;
+
+    public VerlagBuilder() {
+
+    }
+
+    public VerlagBuilder(Verlag verlag){
+        setId(verlag.getId());
+        setName(verlag.getName());
+    }
 
     public VerlagBuilder setId(String id) {
         this.id = id;
@@ -31,6 +39,17 @@ public class VerlagBuilder implements BearbeitbarBuilder {
         Map<String, Class<?>> attribute = new HashMap<>();
         attribute.put("Name", String.class);
         return attribute;
+    }
+
+    @Override
+    public String getAttribut(String attribut) {
+        switch (attribut) {
+            case "Name": {
+                return this.name;
+            }
+            default:
+                return null;
+        }
     }
 
     @Override

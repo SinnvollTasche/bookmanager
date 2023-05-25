@@ -12,7 +12,8 @@ public class Buch implements Anzeigbar {
     private Verlag verlag;
     private int seiten;
 
-    public Buch(String titel, String untertitel, List<Autor> autoren, Verlag verlag, int seiten) {
+    public Buch(String id, String titel, String untertitel, List<Autor> autoren, Verlag verlag, int seiten) {
+        this.id = id;
         this.titel = titel;
         this.untertitel = untertitel;
         this.autoren = autoren;
@@ -88,10 +89,15 @@ public class Buch implements Anzeigbar {
         attribute.put("Titel", this.titel);
         attribute.put("Untertitel", this.untertitel);
         StringBuilder autorenString = new StringBuilder();
-        autoren.forEach(autor -> autorenString.append(autor.toString()).append("\n"));
+        if (autoren != null) {
+            autoren.forEach(autor -> autorenString.append(autor.toString()).append("\n"));
+        }
         attribute.put("Autor*Innen", autorenString.toString());
         attribute.put("Seiten", this.seiten + "");
-        attribute.put("Verlag", this.verlag.toString());
+        attribute.put("Verlag", "");
+        if (verlag != null) {
+            attribute.put("Verlag", this.verlag.toString());
+        }
         return attribute;
     }
 }

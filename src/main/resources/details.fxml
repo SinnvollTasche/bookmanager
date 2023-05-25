@@ -37,7 +37,7 @@
       </GridPane>
       <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-            <Button mnemonicParsing="false" text="Änderungen vornehmen" />
+            <Button mnemonicParsing="false" onAction="#beiBearbeitenButtonKlick" text="Änderungen vornehmen" />
             <Button mnemonicParsing="false" onAction="#beiHauptmenuButtonKlick" text="Hauptmenü">
                <FlowPane.margin>
                   <Insets left="20.0" />

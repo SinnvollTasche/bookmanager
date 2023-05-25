@@ -1,15 +1,37 @@
 package balta.stuermer.adv.swe.models;
 
+import balta.stuermer.adv.swe.datenhaltung.Buchspeicherung;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class BuchBuilder implements BearbeitbarBuilder {
+    private String id;
     private String titel;
     private String untertitel;
     private List<Autor> autoren;
     private Verlag verlag;
     private int seiten;
+
+    public BuchBuilder() {
+
+    }
+
+    public BuchBuilder(Buch buch){
+        setId(buch.getId());
+        setTitel(buch.getTitel());
+        setUntertitel(buch.getUntertitel());
+        setAutoren(buch.getAutoren());
+        setVerlag(buch.getVerlag());
+        setSeiten(buch.getSeiten());
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public BuchBuilder setTitel(String titel) {
         this.titel = titel;
@@ -47,7 +69,7 @@ public class BuchBuilder implements BearbeitbarBuilder {
     }
 
     public Buch createBuch() {
-        return new Buch(titel, untertitel, autoren, verlag, seiten);
+        return new Buch(id, titel, untertitel, autoren, verlag, seiten);
     }
 
     @Override
@@ -60,14 +82,47 @@ public class BuchBuilder implements BearbeitbarBuilder {
     }
 
     @Override
-    public void setAttribut(String attribut, Object wert) {
-        if (attribut.equals("Titel")) {
-            setTitel(wert.toString());
+    public String getAttribut(String attribut) {
+        switch (attribut) {
+            case "Titel": {
+                return this.titel;
+            }
+            case "Untertitel": {
+                return this.untertitel;
+            }
+            case "Seiten": {
+                return this.seiten + "";
+            }
+            default:
+                return null;
         }
     }
 
     @Override
-    public void speichere() {
+    public void setAttribut(String attribut, Object wert) {
+        switch (attribut) {
+            case "Titel": {
+                setTitel(wert.toString());
+                break;
+            }
+            case "Untertitel": {
+                setUntertitel(wert.toString());
+                break;
+            }
+            case "Seiten": {
+                setSeiten(Integer.parseInt(wert.toString()));
+                break;
+            }
+        }
+    }
 
+    @Override
+    public void speichere() throws IOException {
+        if (this.id == null || this.id.equals("") || this.id.equals("null")) {
+            this.id = UUID.randomUUID().toString();
+            Buchspeicherung.getInstanz().speichereNeuesBuch(this.createBuch());
+        } else {
+            Buchspeicherung.getInstanz().aktualisiereBuch(this.id, this.createBuch());
+        }
     }
 }

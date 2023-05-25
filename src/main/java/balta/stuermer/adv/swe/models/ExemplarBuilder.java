@@ -45,6 +45,11 @@ public class ExemplarBuilder implements BearbeitbarBuilder {
     }
 
     @Override
+    public String getAttribut(String attribut) {
+        return null;
+    }
+
+    @Override
     public void speichere() {
 
     }

@@ -11,6 +11,15 @@ public class AutorBuilder implements BearbeitbarBuilder {
     private String id;
     private String name;
 
+    public AutorBuilder() {
+
+    }
+
+    public AutorBuilder(Autor autor){
+        setId(autor.getId());
+        setName(autor.getName());
+    }
+
     public AutorBuilder setId(String id) {
         this.id = id;
         return this;
@@ -30,6 +39,17 @@ public class AutorBuilder implements BearbeitbarBuilder {
         Map<String, Class<?>> attribute = new HashMap<>();
         attribute.put("Name", String.class);
         return attribute;
+    }
+
+    @Override
+    public String getAttribut(String attribut) {
+        switch (attribut) {
+            case "Name": {
+                return this.name;
+            }
+            default:
+                return null;
+        }
     }
 
     @Override

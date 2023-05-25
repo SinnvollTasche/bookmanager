@@ -1,6 +1,6 @@
 package balta.stuermer.adv.swe.controller;
 
-import balta.stuermer.adv.swe.models.Anzeigbar;
+import balta.stuermer.adv.swe.models.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,6 +33,39 @@ public class DetailsController {
         }
     }
 
+    @FXML
+    private void beiBearbeitenButtonKlick(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/bearbeiten.fxml"));
+        Scene jetzigeSzene = ((Button)event.getSource()).getScene();
+        try {
+            Parent root = fxmlLoader.load();
+            BearbeitenController bearbeitenController = fxmlLoader.getController();
+            if (bearbeitenController == null) {
+                bearbeitenController = new BearbeitenController();
+                fxmlLoader.setController(bearbeitenController);
+            }
+            switch (anzuzeigendesObjekt.getClass().getSimpleName()) {
+                case "Buch":
+                    bearbeitenController.setZuBearbeitendesObjekt(new BuchBuilder((Buch) anzuzeigendesObjekt));
+                    break;
+                case "Autor":
+                    bearbeitenController.setZuBearbeitendesObjekt(new AutorBuilder((Autor) anzuzeigendesObjekt));
+                    break;
+                case "Verlag":
+                    bearbeitenController.setZuBearbeitendesObjekt(new VerlagBuilder((Verlag) anzuzeigendesObjekt));
+                    break;
+            }
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setOpacity(1);
+            stage.setTitle("Bearbeiten");
+            stage.setScene(new Scene(root, jetzigeSzene.getWidth(), jetzigeSzene.getHeight()));
+            stage.show();
+            ((Stage)(jetzigeSzene.getWindow())).close();
+        } catch (IOException ex) {
+            System.err.println("Fehler in der bearbeiten.fxml datei");
+        }
+    }
 
     @FXML
     private void beiHauptmenuButtonKlick(ActionEvent event) {

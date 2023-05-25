@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HauptmenuController {
-    private String modus = "autor";
+    private String modus = "buch";
     @FXML
     public ListView liste;
     @FXML
