@@ -9,17 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class HauptmenuController {
     private String modus = "buch";
@@ -58,66 +52,28 @@ public class HauptmenuController {
 
     @FXML
     private void beiNeuAnlegen(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/bearbeiten.fxml"));
         Scene jetzigeSzene = ((Button)event.getSource()).getScene();
-        try {
-            Parent root = fxmlLoader.load();
-            BearbeitenController bearbeitenController = fxmlLoader.getController();
-            if (bearbeitenController == null) {
-                bearbeitenController = new BearbeitenController();
-                fxmlLoader.setController(bearbeitenController);
-            }
-            switch (modus) {
-                case "buch":
-                    bearbeitenController.setZuBearbeitendesObjekt(new BuchBuilder());
-                    break;
-                case "autor":
-                    bearbeitenController.setZuBearbeitendesObjekt(new AutorBuilder());
-                    break;
-                case "verlag":
-                    bearbeitenController.setZuBearbeitendesObjekt(new VerlagBuilder());
-                    break;
-                case "ausleihe":
-                    bearbeitenController.setZuBearbeitendesObjekt(new AusleiheBuilder());
-                    break;
-            }
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setOpacity(1);
-            stage.setTitle("Bearbeiten");
-            stage.setScene(new Scene(root, jetzigeSzene.getWidth(), jetzigeSzene.getHeight()));
-            stage.show();
-            ((Stage)(jetzigeSzene.getWindow())).close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            System.err.println("Fehler in der bearbeiten.fxml datei");
+        switch (modus) {
+            case "buch":
+                UIOperationen.wechselZuBearbeiten(jetzigeSzene, new BuchBuilder());
+                break;
+            case "autor":
+                UIOperationen.wechselZuBearbeiten(jetzigeSzene, new AutorBuilder());
+                break;
+            case "verlag":
+                UIOperationen.wechselZuBearbeiten(jetzigeSzene, new VerlagBuilder());
+                break;
+            case "ausleihe":
+                UIOperationen.wechselZuBearbeiten(jetzigeSzene, new AusleiheBuilder());
+                break;
         }
     }
 
     @FXML
     private void beiAuswahlAusListe(MouseEvent event) {
         Anzeigbar anzuzeigendesObjekt = (Anzeigbar) liste.getSelectionModel().getSelectedItem();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/details.fxml"));
         Scene jetzigeSzene = ((ListView<?>) event.getSource()).getScene();
-        try {
-            Parent root = fxmlLoader.load();
-            DetailsController detailsController = fxmlLoader.getController();
-            if (detailsController == null) {
-                detailsController = new DetailsController();
-                fxmlLoader.setController(detailsController);
-            }
-            detailsController.setAnzuzeigendesObjekt(anzuzeigendesObjekt);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setOpacity(1);
-            stage.setTitle("Details");
-            stage.setScene(new Scene(root, jetzigeSzene.getWidth(), jetzigeSzene.getHeight()));
-            stage.show();
-            ((Stage)(jetzigeSzene.getWindow())).close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            System.err.println("Fehler in der details.fxml datei");
-        }
+        UIOperationen.wechselZuDetails(jetzigeSzene, anzuzeigendesObjekt);
     }
 
     private void ladeListe() {
