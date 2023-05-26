@@ -1,9 +1,12 @@
 package balta.stuermer.adv.swe.datenhaltung;
 
+import balta.stuermer.adv.swe.models.Autor;
 import balta.stuermer.adv.swe.models.Buch;
-import com.google.gson.Gson;
+import balta.stuermer.adv.swe.models.Verlag;
+import com.google.gson.*;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,11 +86,48 @@ public class Buchspeicherung {
         } catch (IOException ex) {
             throw new IllegalArgumentException("Fehler beim Lesen der Daten des Buchs.");
         }
-        return new Gson().fromJson(stringBuilder.toString(), Buch.class);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        JsonDeserializer<Autor> autorJsonDeserializer = new JsonDeserializer<Autor>() {
+            @Override
+            public Autor deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                return Autorspeicherung.getInstanz().findeAutorMitId(jsonObject.get("id").getAsString());
+            }
+        };
+        gsonBuilder.registerTypeAdapter(Autor.class, autorJsonDeserializer);
+        JsonDeserializer<Verlag> verlagJsonDeserializer = new JsonDeserializer<Verlag>() {
+            @Override
+            public Verlag deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                return Verlagspeicherung.getInstanz().findeVerlagMitId(jsonObject.get("id").getAsString());
+            }
+        };
+        gsonBuilder.registerTypeAdapter(Verlag.class, verlagJsonDeserializer);
+        return gsonBuilder.create().fromJson(stringBuilder.toString(), Buch.class);
     }
 
     private void schreibeBuchInDatei(Buch buch, File f) {
-        String jsonBuch = new Gson().toJson(buch);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        JsonSerializer<Autor> autorJsonSerializer = new JsonSerializer<Autor>() {
+            @Override
+            public JsonElement serialize(Autor autor, Type type, JsonSerializationContext jsonSerializationContext) {
+                JsonObject jsonAutor = new JsonObject();
+                jsonAutor.addProperty("id", autor.getId());
+                return jsonAutor;
+            }
+        };
+        gsonBuilder.registerTypeAdapter(Autor.class, autorJsonSerializer);
+        JsonSerializer<Verlag> verlagJsonSerializer = new JsonSerializer<Verlag>() {
+            @Override
+            public JsonElement serialize(Verlag verlag, Type type, JsonSerializationContext jsonSerializationContext) {
+                JsonObject jsonVerlag = new JsonObject();
+                jsonVerlag.addProperty("id", verlag.getId());
+                return jsonVerlag;
+            }
+        };
+        gsonBuilder.registerTypeAdapter(Verlag.class, verlagJsonSerializer);
+        String jsonBuch = gsonBuilder.create().toJson(buch);
         try (FileWriter fw = new FileWriter(f)) {
             fw.write(jsonBuch);
         } catch (IOException ex) {

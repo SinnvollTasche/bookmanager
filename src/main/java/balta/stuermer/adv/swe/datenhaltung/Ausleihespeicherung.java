@@ -1,10 +1,13 @@
 package balta.stuermer.adv.swe.datenhaltung;
 
+import balta.stuermer.adv.swe.models.Autor;
 import balta.stuermer.adv.swe.models.Buch;
 import balta.stuermer.adv.swe.models.Ausleihe;
-import com.google.gson.Gson;
+import balta.stuermer.adv.swe.models.Verlag;
+import com.google.gson.*;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,11 +82,30 @@ public class Ausleihespeicherung {
         } catch (IOException ex) {
             throw new IllegalArgumentException("Fehler beim Lesen der Daten der Ausleihe.");
         }
-        return new Gson().fromJson(stringBuilder.toString(), Ausleihe.class);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        JsonDeserializer<Buch> buchJsonDeserializer = new JsonDeserializer<Buch>() {
+            @Override
+            public Buch deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                return Buchspeicherung.getInstanz().findeBuchMitId(jsonObject.get("id").getAsString());
+            }
+        };
+        gsonBuilder.registerTypeAdapter(Buch.class, buchJsonDeserializer);
+        return gsonBuilder.create().fromJson(stringBuilder.toString(), Ausleihe.class);
     }
 
     private void schreibeAusleiheInDatei(Ausleihe ausleihe, File f) {
-        String jsonExemplar = new Gson().toJson(ausleihe);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        JsonSerializer<Buch> buchJsonSerializer = new JsonSerializer<Buch>() {
+            @Override
+            public JsonElement serialize(Buch buch, Type type, JsonSerializationContext jsonSerializationContext) {
+                JsonObject jsonBuch = new JsonObject();
+                jsonBuch.addProperty("id", buch.getId());
+                return jsonBuch;
+            }
+        };
+        gsonBuilder.registerTypeAdapter(Buch.class, buchJsonSerializer);
+        String jsonExemplar = gsonBuilder.create().toJson(ausleihe);
         try (FileWriter fw = new FileWriter(f)) {
             fw.write(jsonExemplar);
         } catch (IOException ex) {
