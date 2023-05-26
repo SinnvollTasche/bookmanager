@@ -40,7 +40,7 @@ public class BearbeitenController {
                 case "Verlag": {
                     ComboBox<Verlag> verlagAuswahl = new ComboBox<>();
                     verlagAuswahl.getItems().addAll(FXCollections.observableList(Verlagspeicherung.getInstanz().findeAlleVerlage()));
-                    verlagAuswahl.setEditable(true);
+                    verlagAuswahl.setEditable(false);
                     verlagAuswahl.setOnAction((actionEvent -> {
                                 try {
                                     ((BuchBuilder) zuBearbeitendesObjekt).setVerlag(verlagAuswahl.getValue());
@@ -55,7 +55,7 @@ public class BearbeitenController {
                 case "Autor*Innen": {
                     ComboBox<Autor> autorAuswahl = new ComboBox<>();
                     autorAuswahl.getItems().addAll(FXCollections.observableList(Autorspeicherung.getInstanz().findeAlleAutoren()));
-                    autorAuswahl.setEditable(true);
+                    autorAuswahl.setEditable(false);
                     autorAuswahl.setOnAction((actionEvent -> {
                         try {
                             ((BuchBuilder) zuBearbeitendesObjekt).setAutoren(Collections.singletonList(autorAuswahl.getValue()));
@@ -73,7 +73,7 @@ public class BearbeitenController {
                 case "Buch": {
                     ComboBox<Buch> buchAuswahl = new ComboBox<>();
                     buchAuswahl.getItems().addAll(FXCollections.observableList(Buchspeicherung.getInstanz().findeAlleBuecher()));
-                    buchAuswahl.setEditable(true);
+                    buchAuswahl.setEditable(false);
                     buchAuswahl.setOnAction((actionEvent -> {
                         try {
                             ((AusleiheBuilder) zuBearbeitendesObjekt).setBuch(buchAuswahl.getValue());
