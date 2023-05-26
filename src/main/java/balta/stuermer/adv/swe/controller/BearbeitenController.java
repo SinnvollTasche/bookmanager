@@ -32,17 +32,14 @@ public class BearbeitenController {
             attributGrid.add(new Label(entry.getKey()), 0, i);
             switch (entry.getKey()) {
                 case "Verlag": {
-                    ComboBox<Verlag> verlagAuswahl = new ComboBox<>();
-                    verlagAuswahl.getItems().addAll(FXCollections.observableList(Verlagspeicherung.getInstanz().findeAlleVerlage()));
-                    verlagAuswahl.setEditable(false);
+                    ComboBox<Verlag> verlagAuswahl = UIOperationen.generiereComboBox(Verlagspeicherung.getInstanz().findeAlleVerlage(), (Verlag) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
                     verlagAuswahl.setOnAction((actionEvent -> {
-                                try {
-                                    ((BuchBuilder) zuBearbeitendesObjekt).setVerlag(verlagAuswahl.getValue());
-                                } catch (ClassCastException ex) {
-                                    System.out.println("Aus einem unbekannten Grund wird hier ein Fehler geworfen, aber trotzdem funktioniert alles.");
-                                }
-                            }));
-                    verlagAuswahl.setValue((Verlag) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
+                        try {
+                            ((BuchBuilder) zuBearbeitendesObjekt).setVerlag(verlagAuswahl.getValue());
+                        } catch (ClassCastException ex) {
+                            System.out.println("Aus einem unbekannten Grund wird hier ein Fehler geworfen, aber trotzdem funktioniert alles.");
+                        }
+                    }));
                     attributGrid.add(verlagAuswahl, 1, i);
                     break;
                 }
@@ -65,9 +62,8 @@ public class BearbeitenController {
                     break;
                 }
                 case "Buch": {
-                    ComboBox<Buch> buchAuswahl = new ComboBox<>();
-                    buchAuswahl.getItems().addAll(FXCollections.observableList(Buchspeicherung.getInstanz().findeAlleBuecher()));
-                    buchAuswahl.setEditable(false);
+                    ComboBox<Buch> buchAuswahl = UIOperationen.generiereComboBox(Buchspeicherung.getInstanz().findeAlleBuecher(),
+                            (Buch) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
                     buchAuswahl.setOnAction((actionEvent -> {
                         try {
                             ((AusleiheBuilder) zuBearbeitendesObjekt).setBuch(buchAuswahl.getValue());
@@ -75,14 +71,12 @@ public class BearbeitenController {
                             System.out.println("Aus einem unbekannten Grund wird hier ein Fehler geworfen, aber trotzdem funktioniert alles.");
                         }
                     }));
-                    buchAuswahl.setValue((Buch) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
                     attributGrid.add(buchAuswahl, 1, i);
                     break;
                 }
                 case "Zustand": {
-                    ComboBox<Zustand> zustandAuswahl = new ComboBox<>();
-                    zustandAuswahl.getItems().addAll(FXCollections.observableList(Arrays.stream(Zustand.values()).collect(Collectors.toList())));
-                    zustandAuswahl.setEditable(false);
+                    ComboBox<Zustand> zustandAuswahl = UIOperationen.generiereComboBox(Arrays.stream(Zustand.values()).collect(Collectors.toList()),
+                            (Zustand) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
                     zustandAuswahl.setOnAction((actionEvent -> {
                         try {
                             ((BuchBuilder) zuBearbeitendesObjekt).setZustand(zustandAuswahl.getValue());
@@ -90,7 +84,6 @@ public class BearbeitenController {
                             System.out.println("Aus einem unbekannten Grund wird hier ein Fehler geworfen, aber trotzdem funktioniert alles.");
                         }
                     }));
-                    zustandAuswahl.setValue((Zustand) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
                     attributGrid.add(zustandAuswahl, 1, i);
                     break;
                 }

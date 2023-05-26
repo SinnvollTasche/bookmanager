@@ -1,15 +1,21 @@
 package balta.stuermer.adv.swe.controller;
 
+import balta.stuermer.adv.swe.datenhaltung.Verlagspeicherung;
 import balta.stuermer.adv.swe.models.*;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.util.List;
 
 public class UIOperationen {
     private UIOperationen() {}
@@ -80,5 +86,13 @@ public class UIOperationen {
         } catch (IOException ex) {
             UIOperationen.zeigeDialog("Fehler beim Laden des Detailfensters", ex.getMessage());
         }
+    }
+
+    public static <A> ComboBox<A> generiereComboBox(List<A> auswahl, A aktivesObjekt) {
+        ComboBox<A> comboBox = new ComboBox<>();
+        comboBox.getItems().addAll(FXCollections.observableList(auswahl));
+        comboBox.setEditable(false);
+        comboBox.setValue(aktivesObjekt);
+        return comboBox;
     }
 }
