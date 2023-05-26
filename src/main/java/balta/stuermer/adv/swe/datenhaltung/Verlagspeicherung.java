@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Alle Funktionen, die mit der Datenhaltung von Verlagen zu tun haben
+ * Einziger Zweck sich zu ändern: Speicherung von Verlagen ändert sich
+ * Clean Architecture Level: Adapter/Plugin
+ */
 public class Verlagspeicherung implements Speicherung {
     private static Verlagspeicherung instanz;
     private File speicherort;

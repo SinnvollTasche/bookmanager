@@ -3,11 +3,21 @@ package balta.stuermer.adv.swe.models;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Objekt zur Repräsentation von Ausleihen
+ * Einziger Zweck sich zu ändern: Ausleihe ändert sich
+ */
 public class Ausleihe implements Anzeigbar {
     private String id;
     private String ausleihender;
     private Buch buch;
 
+    /**
+     * Konstruktor.
+     * @param id Einzigartige Id
+     * @param ausleihender Notiz zur ausleihenden Person
+     * @param buch ausgeliehenes Buch
+     */
     public Ausleihe(String id, String ausleihender, Buch buch) {
         this.id = id;
         this.ausleihender = ausleihender;

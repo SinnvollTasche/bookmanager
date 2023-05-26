@@ -3,6 +3,10 @@ package balta.stuermer.adv.swe.models;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Objekt zur Repräsentation von Verlagen
+ * Einziger Zweck sich zu ändern: Verlag ändert sich
+ */
 public class Verlag implements Anzeigbar {
     private String id;
     private String name;

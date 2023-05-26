@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Builder für Autoren
+ * Einziger Zweck sich zu ändern: Autor ändert sich
+ * Entwurfsmuster: Builder
+ */
 public class AutorBuilder implements BearbeitbarBuilder {
     private String id;
     private String name;
@@ -15,6 +20,10 @@ public class AutorBuilder implements BearbeitbarBuilder {
 
     }
 
+    /**
+     * Konstruktor.
+     * @param autor alle Werte dieses Autors werden als Default verwendet
+     */
     public AutorBuilder(Autor autor){
         setId(autor.getId());
         setName(autor.getName());

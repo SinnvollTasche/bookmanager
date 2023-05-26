@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Builder für Ausleihen
+ * Einziger Zweck sich zu ändern: Ausleihe ändert sich
+ * Entwurfsmuster: Builder
+ */
 public class AusleiheBuilder implements BearbeitbarBuilder {
     private String id;
     private String ausleihender;
@@ -16,6 +21,10 @@ public class AusleiheBuilder implements BearbeitbarBuilder {
 
     }
 
+    /**
+     * Konstruktor.
+     * @param ausleihe alle Werte dieser Ausleihe werden als Default verwendet
+     */
     public AusleiheBuilder(Ausleihe ausleihe) {
         id = ausleihe.getId();
         ausleihender = ausleihe.getAusleihender();

@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 
+/**
+ * Alle Funktionen, die mit der Datenhaltung von Ausleihen zu tun haben
+ * Einziger Zweck sich zu ändern: Speicherung von Ausleihen ändert sich
+ */
 public class Autorspeicherung implements Speicherung {
     private static Autorspeicherung instanz;
     private File speicherort;

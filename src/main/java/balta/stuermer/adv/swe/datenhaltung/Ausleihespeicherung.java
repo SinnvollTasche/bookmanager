@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Alle Funktionen, die mit der Datenhaltung von Ausleihen zu tun haben
+ * Einziger Zweck sich zu ändern: Speicherung von Ausleihen ändert sich
+ * Clean Architecture Level: Adapter/Plugin
+ */
 public class Ausleihespeicherung implements Speicherung {
     private static Ausleihespeicherung instanz;
     private File speicherort;

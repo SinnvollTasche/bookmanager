@@ -3,6 +3,10 @@ package balta.stuermer.adv.swe.models;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Objekt zur Repräsentation von Autoren
+ * Einziger Zweck sich zu ändern: Autor ändert sich
+ */
 public class Autor implements Anzeigbar {
     private String id;
     private String name;

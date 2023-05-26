@@ -17,11 +17,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Controller für die GUI, die es ermöglicht, Objekt anzulegen und zu bearbeiten, für die es einen BearbeitbarBuilder gibt
+ * Einziger Zweck sich zu ändern: Bearbeiten-GUI ändert sich
+ */
 public class BearbeitenController {
     BearbeitbarBuilder zuBearbeitendesObjekt;
     @FXML
     public GridPane attributGrid;
 
+    /**
+     * setzt das zu bearbeitende Objekt
+     * @param zuBearbeitendesObjekt BearbeitbarBuilder, mit dem das zu bearbeitende Objekt erstellt werden kann
+     */
     public void setZuBearbeitendesObjekt(final BearbeitbarBuilder zuBearbeitendesObjekt) {
         this.zuBearbeitendesObjekt = zuBearbeitendesObjekt;
         if (attributGrid == null) {

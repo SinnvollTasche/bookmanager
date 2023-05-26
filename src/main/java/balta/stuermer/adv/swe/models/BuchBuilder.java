@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Builder für Bücher
+ * Einziger Zweck sich zu ändern: Buch ändert sich
+ * Entwurfsmuster: Builder
+ */
 public class BuchBuilder implements BearbeitbarBuilder {
     private String id;
     private String titel;
@@ -21,6 +26,10 @@ public class BuchBuilder implements BearbeitbarBuilder {
 
     }
 
+    /**
+     * Konstruktor.
+     * @param buch alle Werte dieses Buchs werden als Default verwendet
+     */
     public BuchBuilder(Buch buch){
         setId(buch.getId());
         setTitel(buch.getTitel());

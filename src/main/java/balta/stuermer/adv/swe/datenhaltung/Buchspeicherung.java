@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Alle Funktionen, die mit der Datenhaltung von Büchern zu tun haben
+ * Einziger Zweck sich zu ändern: Speicherung von Büchern ändert sich
+ * Clean Architecture Level: Adapter/Plugin
+ */
 public class Buchspeicherung implements Speicherung {
     private static Buchspeicherung instanz;
     private File speicherort;

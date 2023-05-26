@@ -13,6 +13,10 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
+/**
+ * Controller für die GUI, die es ermöglicht, Objekt anzuwählen
+ * Einziger Zweck sich zu ändern: Hauptmenü-GUI ändert sich
+ */
 public class HauptmenuController {
     private Modus modus = Modus.BUCH;
     @FXML
@@ -75,6 +79,10 @@ public class HauptmenuController {
         suchfeld.setOnKeyTyped(event -> ladeListe());
     }
 
+    /**
+     * Enum, das den HauptmenuController unterstützt
+     * Einziger Zweck sich zu ändern: neues Anzeigbar Objekt
+     */
     private enum Modus {
         AUSLEIHE(new AusleiheBuilder(), Ausleihespeicherung.getInstanz()),
         AUTOR(new AutorBuilder(), Autorspeicherung.getInstanz()),

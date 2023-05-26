@@ -1,10 +1,7 @@
 package balta.stuermer.adv.swe.controller;
 
-import balta.stuermer.adv.swe.datenhaltung.Verlagspeicherung;
 import balta.stuermer.adv.swe.models.*;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,9 +14,18 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Klasse, die häufige Operationen für die GUI bereithält
+ * Einziger Zweck sich zu ändern: GUI ändert sich
+ */
 public class UIOperationen {
     private UIOperationen() {}
 
+    /**
+     * Zeigt ein Pop-up-Fenster
+     * @param titel Titel des Popups
+     * @param content Inhalt des Popups
+     */
     public static void zeigeDialog(String titel, String content) {
         Dialog<String> dialog = new Dialog<>();
         Window window = dialog.getDialogPane().getScene().getWindow();
@@ -29,6 +35,10 @@ public class UIOperationen {
         dialog.show();
     }
 
+    /**
+     * Schließt das alte Fenster und öffnet das Hauptmenü
+     * @param jetzigeSzene wird benötigt um die Größe des vorherigen Fensters zu übernehmen
+     */
     public static void wechselZuHauptMenu(Scene jetzigeSzene) {
         FXMLLoader fxmlLoader = new FXMLLoader(UIOperationen.class.getResource("/hauptmenu.fxml"));
         try {
@@ -45,6 +55,11 @@ public class UIOperationen {
         }
     }
 
+    /**
+     * Schließt das alte Fenster und öffnet das Bearbeiten-Fenster
+     * @param jetzigeSzene wird benötigt um die Größe des vorherigen Fensters zu übernehmen
+     * @param builder BearbeitbarBuilder, für das Objekt, das bearbeitet werden soll
+     */
     public static void wechselZuBearbeiten(Scene jetzigeSzene, BearbeitbarBuilder builder) {
         FXMLLoader fxmlLoader = new FXMLLoader(UIOperationen.class.getResource("/bearbeiten.fxml"));
         try {
@@ -67,6 +82,11 @@ public class UIOperationen {
         }
     }
 
+    /**
+     * Schließt das alte Fenster und öffnet die Detailansicht
+     * @param jetzigeSzene wird benötigt um die Größe des vorherigen Fensters zu übernehmen
+     * @param anzuzeigendesObjekt Objekt, dessen Details angezeigt werden sollen
+     */
     public static void wechselZuDetails(Scene jetzigeSzene, Anzeigbar anzuzeigendesObjekt) {
         FXMLLoader fxmlLoader = new FXMLLoader(UIOperationen.class.getResource("/details.fxml"));try {
             Parent root = fxmlLoader.load();
@@ -88,6 +108,14 @@ public class UIOperationen {
         }
     }
 
+    /**
+     * generiert eine ComboBox, die die Auswahl aus allen Objekten der übergeben Liste ermöglicht
+     * Was bei der Auswahl passiert kann der ComboBox über die onAction Methode übergeben werden
+     * @param auswahl Objekte, aus denen ausgewählt werden soll
+     * @param aktivesObjekt Vorausgewähltes Objekt (kann null sein um kein vorausgewähltes zu haben)
+     * @param <A> einheitliche Klasse, aus der ausgewählt wird
+     * @return ComboBox
+     */
     public static <A> ComboBox<A> generiereComboBox(List<A> auswahl, A aktivesObjekt) {
         ComboBox<A> comboBox = new ComboBox<>();
         comboBox.getItems().addAll(FXCollections.observableList(auswahl));

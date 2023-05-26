@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Objekt zur Repräsentation von Büchern
+ * Einziger Zweck sich zu ändern: Buch ändert sich
+ */
 public class Buch implements Anzeigbar {
     private String id;
     private String titel;
@@ -13,6 +17,16 @@ public class Buch implements Anzeigbar {
     private int seiten;
     private Zustand zustand;
 
+    /**
+     * Konstruktor.
+     * @param id Einzigartige Id
+     * @param titel Titel des Buches
+     * @param untertitel Untertitel des Buches
+     * @param autoren Liste von Autoren des Buches
+     * @param verlag Verlag
+     * @param seiten Seitenanzahl
+     * @param zustand Zustandsklasse
+     */
     public Buch(String id, String titel, String untertitel, List<Autor> autoren, Verlag verlag, int seiten, Zustand zustand) {
         this.id = id;
         this.titel = titel;

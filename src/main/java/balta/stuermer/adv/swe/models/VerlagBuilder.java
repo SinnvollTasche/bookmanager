@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Builder für Verlage
+ * Einziger Zweck sich zu ändern: Verlag ändert sich
+ * Entwurfsmuster: Builder
+ */
 public class VerlagBuilder implements BearbeitbarBuilder {
     private String id;
     private String name;
@@ -15,6 +20,10 @@ public class VerlagBuilder implements BearbeitbarBuilder {
 
     }
 
+    /**
+     * Konstruktor.
+     * @param verlag alle Werte dieses Verlags werden als Default verwendet
+     */
     public VerlagBuilder(Verlag verlag){
         setId(verlag.getId());
         setName(verlag.getName());

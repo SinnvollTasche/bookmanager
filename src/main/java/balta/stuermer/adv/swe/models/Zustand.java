@@ -1,5 +1,8 @@
 package balta.stuermer.adv.swe.models;
 
+/**
+ * Zustandsklasse für Bücher
+ */
 public enum Zustand {
     NEU(0, "neu"),
     WIENEU(1, "wie neu"),

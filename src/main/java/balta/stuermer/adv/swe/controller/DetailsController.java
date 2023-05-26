@@ -9,6 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import java.util.Map;
 
+/**
+ * Controller für die GUI, die es ermöglicht, Anzeigbar Objekt anzuzeigen
+ * Einziger Zweck sich zu ändern: Details-GUI ändert sich
+ */
 public class DetailsController {
     Anzeigbar anzuzeigendesObjekt;
     @FXML
