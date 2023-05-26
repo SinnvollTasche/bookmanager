@@ -1,9 +1,7 @@
 package balta.stuermer.adv.swe.datenhaltung;
 
-import balta.stuermer.adv.swe.models.Autor;
 import balta.stuermer.adv.swe.models.Buch;
 import balta.stuermer.adv.swe.models.Ausleihe;
-import balta.stuermer.adv.swe.models.Verlag;
 import com.google.gson.*;
 
 import java.io.*;
@@ -13,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Ausleihespeicherung {
+public class Ausleihespeicherung implements Speicherung {
     private static Ausleihespeicherung instanz;
     private File speicherort;
 
@@ -30,7 +28,8 @@ public class Ausleihespeicherung {
         this.speicherort = speicherort;
     }
 
-    public List<Ausleihe> findeAlleAusleihen() {
+    @Override
+    public List<Ausleihe> findeAlle() {
         File[] files = speicherort.listFiles(pathname -> pathname.getAbsolutePath().endsWith(".json"));
         List<Ausleihe> ausleihen = new ArrayList<>();
         assert files != null;
@@ -40,8 +39,9 @@ public class Ausleihespeicherung {
         return ausleihen;
     }
 
-    public List<Ausleihe> findeAusleiheMitAusleihendem(String suchbegriff) {
-        List<Ausleihe> ausleihen = this.findeAlleAusleihen();
+    @Override
+    public List<Ausleihe> findeMitSuchbegriff(String suchbegriff) {
+        List<Ausleihe> ausleihen = this.findeAlle();
         ausleihen = ausleihen.stream().filter(a -> a.getAusleihender().matches(".*" + suchbegriff + ".*")).collect(Collectors.toList());
         return ausleihen;
     }

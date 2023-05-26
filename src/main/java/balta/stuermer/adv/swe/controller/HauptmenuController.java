@@ -1,12 +1,8 @@
 package balta.stuermer.adv.swe.controller;
 
-import balta.stuermer.adv.swe.datenhaltung.Ausleihespeicherung;
-import balta.stuermer.adv.swe.datenhaltung.Autorspeicherung;
-import balta.stuermer.adv.swe.datenhaltung.Buchspeicherung;
-import balta.stuermer.adv.swe.datenhaltung.Verlagspeicherung;
+import balta.stuermer.adv.swe.datenhaltung.*;
 import balta.stuermer.adv.swe.models.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -15,37 +11,39 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+import java.util.List;
+
 public class HauptmenuController {
-    private String modus = "buch";
+    private Modus modus = Modus.BUCH;
     @FXML
-    public ListView liste;
+    public ListView<Anzeigbar> liste;
     @FXML
     public TextField suchfeld;
 
     @FXML
     private void beiBuchMenuAuswahl(ActionEvent event) {
-        modus = "buch";
+        modus = Modus.BUCH;
         suchfeld.setText("");
         ladeListe();
     }
 
     @FXML
     private void beiAutorMenuAuswahl(ActionEvent event) {
-        modus = "autor";
+        modus = Modus.AUTOR;
         suchfeld.setText("");
         ladeListe();
     }
 
     @FXML
     private void beiVerlagMenuAuswahl(ActionEvent event) {
-        modus = "verlag";
+        modus = Modus.VERLAG;
         suchfeld.setText("");
         ladeListe();
     }
 
     @FXML
     private void beiAusleiheMenuAuswahl(ActionEvent event) {
-        modus = "ausleihe";
+        modus = Modus.AUSLEIHE;
         suchfeld.setText("");
         ladeListe();
     }
@@ -53,77 +51,50 @@ public class HauptmenuController {
     @FXML
     private void beiNeuAnlegen(ActionEvent event) {
         Scene jetzigeSzene = ((Button)event.getSource()).getScene();
-        switch (modus) {
-            case "buch":
-                UIOperationen.wechselZuBearbeiten(jetzigeSzene, new BuchBuilder());
-                break;
-            case "autor":
-                UIOperationen.wechselZuBearbeiten(jetzigeSzene, new AutorBuilder());
-                break;
-            case "verlag":
-                UIOperationen.wechselZuBearbeiten(jetzigeSzene, new VerlagBuilder());
-                break;
-            case "ausleihe":
-                UIOperationen.wechselZuBearbeiten(jetzigeSzene, new AusleiheBuilder());
-                break;
-        }
+        UIOperationen.wechselZuBearbeiten(jetzigeSzene, modus.getBuilder());
     }
 
     @FXML
     private void beiAuswahlAusListe(MouseEvent event) {
-        Anzeigbar anzuzeigendesObjekt = (Anzeigbar) liste.getSelectionModel().getSelectedItem();
+        Anzeigbar anzuzeigendesObjekt = liste.getSelectionModel().getSelectedItem();
         Scene jetzigeSzene = ((ListView<?>) event.getSource()).getScene();
         UIOperationen.wechselZuDetails(jetzigeSzene, anzuzeigendesObjekt);
     }
 
     private void ladeListe() {
-        switch (modus) {
-            case "buch": {
-                ObservableList<Buch> buchListe;
-                if (suchfeld.getText() != null && !suchfeld.getText().equals("")) {
-                    buchListe = FXCollections.observableList(Buchspeicherung.getInstanz().findeBuch(suchfeld.getText()));
-                } else {
-                    buchListe = FXCollections.observableList(Buchspeicherung.getInstanz().findeAlleBuecher());
-                }
-                liste.setItems(buchListe);
-                break;
-            }
-            case "autor": {
-                ObservableList<Autor> autoren;
-                if (suchfeld.getText() != null && !suchfeld.getText().equals("")) {
-                    autoren = FXCollections.observableList(Autorspeicherung.getInstanz().findeAutor(suchfeld.getText()));
-                } else {
-                    autoren = FXCollections.observableList(Autorspeicherung.getInstanz().findeAlleAutoren());
-                }
-                liste.setItems(autoren);
-                break;
-            }
-            case "verlag": {
-                ObservableList<Verlag> verlage;
-                if (suchfeld.getText() != null && !suchfeld.getText().equals("")) {
-                    verlage = FXCollections.observableList(Verlagspeicherung.getInstanz().findeVerlagMitName(suchfeld.getText()));
-                } else {
-                    verlage = FXCollections.observableList(Verlagspeicherung.getInstanz().findeAlleVerlage());
-                }
-                liste.setItems(verlage);
-                break;
-            }
-            case "ausleihe": {
-                ObservableList<Ausleihe> ausleihen;
-                if (suchfeld.getText() != null && !suchfeld.getText().equals("")) {
-                    ausleihen = FXCollections.observableList(Ausleihespeicherung.getInstanz().findeAusleiheMitAusleihendem(suchfeld.getText()));
-                } else {
-                    ausleihen = FXCollections.observableList(Ausleihespeicherung.getInstanz().findeAlleAusleihen());
-                }
-                liste.setItems(ausleihen);
-                break;
-            }
+        if (suchfeld.getText() != null && !suchfeld.getText().equals("")) {
+            liste.setItems(FXCollections.observableList((List<Anzeigbar>) modus.getSpeicherung().findeMitSuchbegriff(suchfeld.getText())));
+            return;
         }
+        liste.setItems(FXCollections.observableList((List<Anzeigbar>) modus.getSpeicherung().findeAlle()));
     }
 
     @FXML
     private void initialize() {
         ladeListe();
         suchfeld.setOnKeyTyped(event -> ladeListe());
+    }
+
+    private enum Modus {
+        AUSLEIHE(new AusleiheBuilder(), Ausleihespeicherung.getInstanz()),
+        AUTOR(new AutorBuilder(), Autorspeicherung.getInstanz()),
+        BUCH(new BuchBuilder(), Buchspeicherung.getInstanz()),
+        VERLAG(new VerlagBuilder(), Verlagspeicherung.getInstanz());
+
+        private final BearbeitbarBuilder builder;
+        private final Speicherung speicherung;
+
+        Modus(BearbeitbarBuilder builder, Speicherung speicherung) {
+            this.builder = builder;
+            this.speicherung = speicherung;
+        }
+
+        public BearbeitbarBuilder getBuilder() {
+            return builder;
+        }
+
+        public Speicherung getSpeicherung() {
+            return speicherung;
+        }
     }
 }

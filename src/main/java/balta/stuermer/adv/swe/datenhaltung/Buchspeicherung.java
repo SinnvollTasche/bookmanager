@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Buchspeicherung {
+public class Buchspeicherung implements Speicherung {
     private static Buchspeicherung instanz;
     private File speicherort;
 
@@ -29,7 +29,8 @@ public class Buchspeicherung {
         this.speicherort = speicherort;
     }
 
-    public List<Buch> findeAlleBuecher() {
+    @Override
+    public List<Buch> findeAlle() {
         File[] files = speicherort.listFiles(pathname -> pathname.getAbsolutePath().endsWith(".json"));
         List<Buch> buecher = new ArrayList<>();
         assert files != null;
@@ -52,8 +53,9 @@ public class Buchspeicherung {
         return leseBuchAusDatei(saveFile);
     }
 
-    public List<Buch> findeBuch(String title) {
-        List<Buch> buecher = this.findeAlleBuecher();
+    @Override
+    public List<Buch> findeMitSuchbegriff(String title) {
+        List<Buch> buecher = this.findeAlle();
         buecher = buecher.stream().filter(a -> a.getTitel().matches(".*" + title + ".*")).collect(Collectors.toList());
         return buecher;
     }

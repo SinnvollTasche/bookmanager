@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 
-public class Autorspeicherung {
+public class Autorspeicherung implements Speicherung {
     private static Autorspeicherung instanz;
     private File speicherort;
 
@@ -27,7 +27,8 @@ public class Autorspeicherung {
         this.speicherort = speicherort;
     }
 
-    public List<Autor> findeAlleAutoren() {
+    @Override
+    public List<Autor> findeAlle() {
         File[] files = speicherort.listFiles(pathname -> pathname.getAbsolutePath().endsWith(".json"));
         List<Autor> autoren = new ArrayList<>();
         assert files != null;
@@ -45,8 +46,9 @@ public class Autorspeicherung {
         schreibeAutorInDatei(autor, saveFile);
     }
 
-    public List<Autor> findeAutor(String name) {
-        List<Autor> autoren = this.findeAlleAutoren();
+    @Override
+    public List<Autor> findeMitSuchbegriff(String name) {
+        List<Autor> autoren = this.findeAlle();
         autoren = autoren.stream().filter(a -> a.getName().matches(".*" + name + ".*")).collect(Collectors.toList());
         return autoren;
     }

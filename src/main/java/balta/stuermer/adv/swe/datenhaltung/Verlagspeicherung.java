@@ -1,6 +1,5 @@
 package balta.stuermer.adv.swe.datenhaltung;
 
-import balta.stuermer.adv.swe.models.Autor;
 import balta.stuermer.adv.swe.models.Verlag;
 import com.google.gson.Gson;
 
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Verlagspeicherung {
+public class Verlagspeicherung implements Speicherung {
     private static Verlagspeicherung instanz;
     private File speicherort;
 
@@ -27,7 +26,8 @@ public class Verlagspeicherung {
         this.speicherort = speicherort;
     }
 
-    public List<Verlag> findeAlleVerlage() {
+    @Override
+    public List<Verlag> findeAlle() {
         File[] files = speicherort.listFiles(pathname -> pathname.getAbsolutePath().endsWith(".json"));
         List<Verlag> verlage = new ArrayList<>();
         assert files != null;
@@ -45,8 +45,9 @@ public class Verlagspeicherung {
         schreibeVerlagInDatei(verlag, saveFile);
     }
 
-    public List<Verlag> findeVerlagMitName(String name) {
-        List<Verlag> verlage = this.findeAlleVerlage();
+    @Override
+    public List<Verlag> findeMitSuchbegriff(String name) {
+        List<Verlag> verlage = this.findeAlle();
         verlage = verlage.stream().filter(a -> a.getName().matches(".*" + name + ".*")).collect(Collectors.toList());
         return verlage;
     }

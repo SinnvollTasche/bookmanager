@@ -32,7 +32,7 @@ public class BearbeitenController {
             attributGrid.add(new Label(entry.getKey()), 0, i);
             switch (entry.getKey()) {
                 case "Verlag": {
-                    ComboBox<Verlag> verlagAuswahl = UIOperationen.generiereComboBox(Verlagspeicherung.getInstanz().findeAlleVerlage(), (Verlag) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
+                    ComboBox<Verlag> verlagAuswahl = UIOperationen.generiereComboBox(Verlagspeicherung.getInstanz().findeAlle(), (Verlag) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
                     verlagAuswahl.setOnAction((actionEvent -> {
                         try {
                             ((BuchBuilder) zuBearbeitendesObjekt).setVerlag(verlagAuswahl.getValue());
@@ -45,7 +45,7 @@ public class BearbeitenController {
                 }
                 case "Autor*Innen": {
                     ComboBox<Autor> autorAuswahl = new ComboBox<>();
-                    autorAuswahl.getItems().addAll(FXCollections.observableList(Autorspeicherung.getInstanz().findeAlleAutoren()));
+                    autorAuswahl.getItems().addAll(FXCollections.observableList(Autorspeicherung.getInstanz().findeAlle()));
                     autorAuswahl.setEditable(false);
                     autorAuswahl.setOnAction((actionEvent -> {
                         try {
@@ -62,7 +62,7 @@ public class BearbeitenController {
                     break;
                 }
                 case "Buch": {
-                    ComboBox<Buch> buchAuswahl = UIOperationen.generiereComboBox(Buchspeicherung.getInstanz().findeAlleBuecher(),
+                    ComboBox<Buch> buchAuswahl = UIOperationen.generiereComboBox(Buchspeicherung.getInstanz().findeAlle(),
                             (Buch) zuBearbeitendesObjekt.getAttribut(entry.getKey()));
                     buchAuswahl.setOnAction((actionEvent -> {
                         try {
