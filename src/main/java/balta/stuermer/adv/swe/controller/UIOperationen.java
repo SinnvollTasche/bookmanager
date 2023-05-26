@@ -88,7 +88,8 @@ public class UIOperationen {
      * @param anzuzeigendesObjekt Objekt, dessen Details angezeigt werden sollen
      */
     public static void wechselZuDetails(Scene jetzigeSzene, Anzeigbar anzuzeigendesObjekt) {
-        FXMLLoader fxmlLoader = new FXMLLoader(UIOperationen.class.getResource("/details.fxml"));try {
+        FXMLLoader fxmlLoader = new FXMLLoader(UIOperationen.class.getResource("/details.fxml"));
+        try {
             Parent root = fxmlLoader.load();
             DetailsController detailsController = fxmlLoader.getController();
             if (detailsController == null) {
