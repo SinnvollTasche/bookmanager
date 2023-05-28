@@ -1,10 +1,16 @@
 package balta.stuermer.adv.swe.models;
 
+import balta.stuermer.adv.swe.datenhaltung.Buchspeicherung;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 public class BuchBuilderTest {
     @Test
@@ -137,5 +143,21 @@ public class BuchBuilderTest {
         builder.setAttribut("Seiten", 100);
         // Assert
         Assertions.assertThat(builder.createBuch().getSeiten()).isEqualTo(100);
+    }
+
+    @Test
+    public void testSpeichereNeu() throws IOException {
+        // Arrange
+        Buchspeicherung buchspeicherungMock = mock(Buchspeicherung.class);
+        try (MockedStatic<Buchspeicherung> buchspeicherungMockedStatic = mockStatic(Buchspeicherung.class)) {
+            buchspeicherungMockedStatic.when(Buchspeicherung::getInstanz).thenReturn(buchspeicherungMock);
+
+            //Act
+            new BuchBuilder().setTitel("test test").speichere();
+
+            //Assert
+            Mockito.verify(buchspeicherungMock, times(1)).speichereNeuesBuch(any(Buch.class));
+            verifyNoMoreInteractions(buchspeicherungMock);
+        }
     }
 }

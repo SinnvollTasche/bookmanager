@@ -40,8 +40,9 @@ public class BuchBuilder implements BearbeitbarBuilder {
         setZustand(buch.getZustand());
     }
 
-    public void setId(String id) {
+    public BuchBuilder setId(String id) {
         this.id = id;
+        return this;
     }
 
     public BuchBuilder setTitel(String titel) {
@@ -79,8 +80,9 @@ public class BuchBuilder implements BearbeitbarBuilder {
         return this;
     }
 
-    public void setZustand(Zustand zustand) {
+    public BuchBuilder setZustand(Zustand zustand) {
         this.zustand = zustand;
+        return this;
     }
 
     public Buch createBuch() {
